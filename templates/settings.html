@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block heading %}تنظیمات ربات{% endblock %}{% block content %}
+<div class="card"><h2>تنظیمات عمومی</h2><p class="muted">این فرم تنظیمات را در دیتابیس مشترک ذخیره می‌کند. برای تغییر فوری رفتار ربات، کد بات باید این مقادیر را در زمان اجرا بخواند؛ این پروژه به‌تنهایی فایل بات را تغییر نمی‌دهد.</p>
+<form method="post"><input type="hidden" name="_csrf" value="{{csrf_token()}}">
+<div class="field"><label class="checkline"><input type="checkbox" name="random_chat_enabled" value="1" {% if s.random_chat_enabled=='1' %}checked{% endif %}> فعال بودن چت شانسی</label></div>
+<div class="form-grid"><div class="field"><label>زمان انتظار (ثانیه، ۱۰ تا ۳۰۰)</label><input type="number" name="random_wait_seconds" min="10" max="300" value="{{s.random_wait_seconds}}" required></div>
+<div class="field"><label>شناسه کانال اجباری</label><input name="required_channel" value="{{s.required_channel}}" required></div>
+<div class="field"><label>لینک کانال</label><input type="url" name="channel_url" value="{{s.channel_url}}" required></div>
+<div class="field"><label>متن دکمه صفحه اصلی</label><input name="home_button_text" value="{{s.home_button_text}}" required></div></div>
+<div class="field"><label>پیام عضویت اجباری</label><textarea name="membership_message" required>{{s.membership_message}}</textarea></div>
+<div class="field"><label>پیام زمان جست‌وجو</label><textarea name="search_message" required>{{s.search_message}}</textarea></div>
+<div class="field"><label>پیام پیدا نشدن مخاطب</label><textarea name="not_found_message" required>{{s.not_found_message}}</textarea></div>
+<button class="primary">💾 ذخیره تنظیمات</button></form></div>{% endblock %}

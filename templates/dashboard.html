@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block heading %}داشبورد{% endblock %}{% block content %}
+<div class="grid">
+<div class="card"><div class="metric-label">👥 کل کاربران</div><div class="metric">{{stats.users}}</div><div class="muted">ثبت‌شده در دیتابیس</div></div>
+<div class="card"><div class="metric-label">🟢 فعال در ۵ دقیقه اخیر</div><div class="metric">{{stats.online}}</div><div class="muted">بر اساس آخرین فعالیت</div></div>
+<div class="card"><div class="metric-label">🎲 در صف جست‌وجو</div><div class="metric">{{stats.queue}}</div><div class="muted">درخواست‌های منتظر</div></div>
+<div class="card"><div class="metric-label">💬 مکالمات فعال</div><div class="metric">{{stats.active_chats}}</div><div class="muted">کل مکالمات: {{stats.chats_total}}</div></div>
+<div class="card"><div class="metric-label">🚫 مسدودشده‌ها</div><div class="metric">{{stats.blocked}}</div><div class="muted">کاربران مسدودشده</div></div>
+<div class="card"><div class="metric-label">✨ عضو جدید امروز</div><div class="metric">{{stats.new_today}}</div><div class="muted">بر اساس created_at</div></div>
+</div>
+<div class="card"><h2>وضعیت چت شانسی</h2><p>{% if chat_enabled %}<span class="pill">فعال در تنظیمات پنل</span>{% else %}<span class="pill off">غیرفعال در تنظیمات پنل</span>{% endif %}</p><p class="muted">توجه: این وضعیت تا زمانی که کد ربات تنظیمات دیتابیس را بخواند، صرفاً در پنل ذخیره می‌شود و به‌تنهایی رفتار ربات را عوض نمی‌کند.</p><a class="btn primary" href="{{url_for('settings')}}">مدیریت تنظیمات</a></div>
+<div class="card"><h2>آخرین کاربران</h2><div class="table-wrap"><table><thead><tr><th>آیدی</th><th>نام</th><th>نام کاربری</th><th>عضویت</th><th>وضعیت</th></tr></thead><tbody>
+{% for u in latest %}<tr><td>{{u.user_id}}</td><td>{{u.get('full_name','—') or '—'}}</td><td>{{('@'+u.username) if u.get('username') else '—'}}</td><td>{{u.get('created_at','—') or '—'}}</td><td>{% if u.get('is_blocked') %}<span class="pill off">مسدود</span>{% else %}<span class="pill">عادی</span>{% endif %}</td></tr>{% else %}<tr><td colspan="5" class="empty">هنوز کاربری در دیتابیس پیدا نشد.</td></tr>{% endfor %}
+</tbody></table></div><p><a href="{{url_for('users')}}">مشاهده همه کاربران ←</a></p></div>
+{% endblock %}
